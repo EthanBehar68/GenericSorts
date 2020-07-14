@@ -16,15 +16,14 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
                 return arrayToSort;
             }
 
-            if(arrayToSort[0] !is IComparable)
+            if (!(arrayToSort[0] is IComparable))
             {
-                throw new InvalidOperationException("Generic merge requires objects to implement IComparable interface.");
+                throw new ArgumentException("Generic merge requires objects to implement IComparable interface.");
             }
 
             var auxiliaryArray = (T[])arrayToSort.Clone();
 
             // Start recursion
-            Console.WriteLine();
             MergeSortHelper(arrayToSort, 0, arrayToSort.Length - 1, auxiliaryArray);
 
             return arrayToSort;
@@ -43,13 +42,12 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
             // "Divide"
             // Swapping arrays is key to making algorithm work.
             MergeSortHelper(auxiliaryArray, startIndex, middleIndex, mainArray);
-            MergeSortHelper(mainArray, middleIndex + 1 , endIndex, auxiliaryArray);
+            MergeSortHelper(auxiliaryArray, middleIndex + 1 , endIndex, mainArray);
 
             // "Conquer"
             // Actual sorting done in this method
             DoMergeSort(mainArray, startIndex, middleIndex, endIndex, auxiliaryArray);
         }
-
 
         // Move through both "unsorted array" comparing elements and placing them in sorted order 
         // Used "" b/c we are using the same array, we don't have multiple arrays(exception our auxiliaryArray). 
@@ -66,7 +64,7 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
             while (leftIndex <= middleIndex && rightIndex <= endIndex)
             {
                 // Left is smaller so put it in sorted portion of mainArray increment left index
-                if(auxiliaryArray[leftIndex].CompareTo(auxiliaryArray[rightIndex]) <= 0)
+                if (auxiliaryArray[leftIndex].CompareTo(auxiliaryArray[rightIndex]) <= 0)
                 {
                     mainArray[sortedIndex] = auxiliaryArray[leftIndex];
                     leftIndex++;
