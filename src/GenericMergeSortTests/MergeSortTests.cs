@@ -7,14 +7,9 @@ namespace GenericMergeSortTests
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         [TestCase(new int[] { 2 })]
-        public void MergeSort_LengthOfOne_ReturnsSameArray(int[] arrayToSort)
+        public void LengthOfOne_ReturnsSameArray(int[] arrayToSort)
         {
             var firstElement = arrayToSort[0];
 
@@ -51,7 +46,7 @@ namespace GenericMergeSortTests
         //}
 
         [Test]
-        public void MergeSort_ArrayIsComparable_SortsArray()
+        public void ArrayIsComparable_SortsArrayAscending()
         {
             var fakeArray = new List<FakeDataComparable>()
             {
@@ -85,7 +80,7 @@ namespace GenericMergeSortTests
                 }
             }.ToArray();
 
-            fakeArray = GenericMergeSort.MergeSort(fakeArray);
+            fakeArray = GenericMergeSort.MergeSort(fakeArray, EthanBehar.GenericSorts.SortingOption.Ascending);
 
             Assert.AreEqual(1, fakeArray[0].data);
             Assert.AreEqual(4, fakeArray[1].data);
@@ -95,5 +90,52 @@ namespace GenericMergeSortTests
             Assert.AreEqual(50, fakeArray[5].data);
             Assert.AreEqual(100, fakeArray[6].data);
         }
+
+        [Test]
+        public void ArrayIsComparable_SortsArrayDescending()
+        {
+            var fakeArray = new List<FakeDataComparable>()
+            {
+                new FakeDataComparable
+                {
+                    data = 7
+                },
+                new FakeDataComparable
+                {
+                    data = 100
+                },
+                new FakeDataComparable
+                {
+                    data = 5
+                },
+                new FakeDataComparable
+                {
+                    data = 6
+                },
+                new FakeDataComparable
+                {
+                    data = 4
+                },
+                new FakeDataComparable
+                {
+                    data = 1
+                },
+                new FakeDataComparable
+                {
+                    data = 50
+                }
+            }.ToArray();
+
+            fakeArray = GenericMergeSort.MergeSort(fakeArray, EthanBehar.GenericSorts.SortingOption.Descending);
+
+            Assert.AreEqual(1, fakeArray[6].data);
+            Assert.AreEqual(4, fakeArray[5].data);
+            Assert.AreEqual(5, fakeArray[4].data);
+            Assert.AreEqual(6, fakeArray[3].data);
+            Assert.AreEqual(7, fakeArray[2].data);
+            Assert.AreEqual(50, fakeArray[1].data);
+            Assert.AreEqual(100, fakeArray[0].data);
+        }
+
     }
 }

@@ -4,11 +4,11 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
 {
     public static class GenericMergeSort
     {
-        public static SortingOption sortOption { get; set; } = SortingOption.Ascending;
+        private static SortingOption _sortOption = SortingOption.Ascending;
 
         // TODO implement SortingOptions
 
-        public static T[] MergeSort<T>(T[] arrayToSort, SortingOption sortOption = SortingOption.Ascending) where T : IComparable
+        public static T[] MergeSort<T>(T[] arrayToSort, SortingOption inSortOption = SortingOption.Ascending) where T : IComparable
         {
             // Already sorted if 1 or less element
             if (arrayToSort.Length <= 1)
@@ -20,6 +20,8 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
             {
                 throw new ArgumentException("Generic merge requires objects to implement IComparable interface.");
             }
+
+            _sortOption = inSortOption;
 
             var auxiliaryArray = (T[])arrayToSort.Clone();
 
@@ -59,29 +61,53 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
             int leftIndex = startIndex;
             int rightIndex = middleIndex + 1;
 
-            // While leftIndex and rightIndex are still within bounds
-            // Once either is out of bounds we stop
-            while (leftIndex <= middleIndex && rightIndex <= endIndex)
+            if (_sortOption == SortingOption.Ascending)
             {
-                // Left is smaller so put it in sorted portion of mainArray increment left index
-                if (auxiliaryArray[leftIndex].CompareTo(auxiliaryArray[rightIndex]) <= 0)
+                // While leftIndex and rightIndex are still within bounds
+                // Once either is out of bounds we stop
+                while (leftIndex <= middleIndex && rightIndex <= endIndex)
                 {
-                    mainArray[sortedIndex] = auxiliaryArray[leftIndex];
-                    leftIndex++;
-                }
-                // Right is smaller so put it in sorted portion of mainArray and increment right index
-                else
-                {
-                    mainArray[sortedIndex] = auxiliaryArray[rightIndex];
-                    rightIndex++;
-                }
+                    // Left is smaller so put it in sorted portion of mainArray increment left index
+                    if (auxiliaryArray[leftIndex].CompareTo(auxiliaryArray[rightIndex]) <= 0)
+                    {
+                        mainArray[sortedIndex] = auxiliaryArray[leftIndex];
+                        leftIndex++;
+                    }
+                    // Right is smaller so put it in sorted portion of mainArray and increment right index
+                    else
+                    {
+                        mainArray[sortedIndex] = auxiliaryArray[rightIndex];
+                        rightIndex++;
+                    }
 
-                // Increment sortedArray index
-                sortedIndex++;
+                    // Increment sortedArray index
+                    sortedIndex++;
+                }
+            }
+            else
+            {
+                while (leftIndex <= middleIndex && rightIndex <= endIndex)
+                {
+                    // Left is bigger so put it in sorted portion of mainArray increment left index
+                    if (auxiliaryArray[leftIndex].CompareTo(auxiliaryArray[rightIndex]) <= 0)
+                    {
+                        mainArray[sortedIndex] = auxiliaryArray[rightIndex];
+                        rightIndex++;
+                    }
+                    // Right is bigger so put it in sorted portion of mainArray and increment right index
+                    else
+                    {
+                        mainArray[sortedIndex] = auxiliaryArray[leftIndex];
+                        leftIndex++;
+                    }
+
+                    // Increment sortedArray index
+                    sortedIndex++;
+                }
             }
 
             // Undoubtly one will have remaining elements so check for that
-            
+
             // While left still has remaining elements
             while (leftIndex <= middleIndex)
             {
@@ -104,4 +130,5 @@ namespace EthanBehar.GenericSorts.GenericMergeSort
             }
         }
     }
+
 }
